@@ -1,0 +1,147 @@
+//  This program will check the barcode from the user and prints the total bill and the receipt for customers until stopped
+// Name of the developer: Ali Zeeshan Akhtar
+// Date of creation: 07/11/2019
+// Date of last modification: 19/12/2019
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+   	int *totalproducts = new int [0];//creating a dynamic array to store values of count depending on the number inputs
+    string product[10]={"Milk","Bread","Chocolate","Towel","Toothpaste","Soap","Pen","Biscuits","Lamp","Battery"};
+    // Barcode variable is string because we needed a string input of "f" or "F" from the user to stop the program
+    string barcode[10]={"0120001","0120002","0120003","0120004","0120005","0120006","0120007","0120008","0120009","0120010"};
+    float price[10]={10.50,5.50,8.00,12.10,6.75,5.20,2.00,4.45,20.50,10.00};
+    string input,customer,receipt;
+    float finalprice,total=0,payment,change,totalpayment=0;
+    int count=0,match=0,loop=0,items=0;
+
+    restart:// Restarts the program based on the input from the user on **line 128**
+    	items=0,total=0,payment,change,totalpayment=0,count=0,match=0,loop=0;//all values become zero so that the program can work for multiple customer
+
+    cout << "\n*******************************************************" << endl;
+    cout << "*     WELCOME TO HERTS SUPERMARKET CHECKOUT SYSTEM    *"<< endl;
+    cout << "*  Scan the barcode or mannually type the barcode ID  *"<< endl;
+    cout << "*******************************************************"<< endl << endl;
+    cout << "Barcode (Type 'F' to finish): ";
+    cin >> input;// Barcode input from the user
+    while ((input !="f") && (input !="F"))
+    {
+        while(count<10)
+         {
+          if (input==barcode[count])// compares the input with the data store in the array **line 13**
+             {
+               total=total+price[count];
+               match=match+1;// saving match value to use later for checking if the input was correct
+               break;
+              }
+          count=count+1;
+          }
+        if (match==0)//checks if there's a match otherwise invalid barcode **line 37**
+        {
+        cout << "[!] This barcode does not exist! Please try again!" << endl;
+        }
+        else
+        {
+        	totalproducts[items]=count; //saving count values to use later for same product and barcode for display
+			items+=1;// total products count for later use in displaying
+
+		}
+     match=0;
+     count=0;
+     cout << "Barcode (Type 'F' to finish): ";
+     cin >> input;
+    }
+    cout << endl << fixed << setprecision(2)<< "Total price: $" << total << endl;// Outputs the total price after all the products have been selected
+     finalprice=total;
+	 if (total==0)
+     {
+         cout <<endl<< "No Product Scanned"<< endl << endl;
+     }
+     else
+     {
+     while (total>=0)
+    {
+    cout << "Cash Recevied: $";
+//The below loop stop the integer variable payment from accepting alphabets, which previously caused program to go in infinite loop
+  if(!(cin >> payment) || (payment<0))//accepts only positive value of payment, which previously caused changes in the total price
+	{
+		cout << "[!] Invalid Amount! Please try again!"<< endl;
+		cin.clear();//Clears the error which occurs when inputing string in a integer variable
+		cin.ignore(10000, '\n');//Skips to the newline and ignore any input of 10000 characters
+	}
+	else
+    {
+
+    totalpayment=totalpayment+payment;
+     if (total<payment)
+    {
+        change=payment-total;
+        cout << "Change given: $" << change << endl;// Display line for amount give by the user
+        break;
+    }
+    else
+    {
+        total=total-payment;
+        cout << "[!] More cash needed: $" << total << endl;// Display line for when the amount enter is less than total
+    }
+    }
+    }
+     }
+	cout << "\nPrint Receipt (Y/N): ";//Display line for print receipt
+	recieptloop:// Restarts the print receipt loop based on the input from the user on **line 95**
+	cin >> receipt;// Input from the user for printing the receipt
+	if (receipt== "y" || receipt== "Y")
+	{
+		cout<<"\n-------------------------------------";
+		cout<<"\n                RECEIPT                   \n";
+
+		cout<<endl;
+		cout<<setw(12)<<"Item"<<setw(12) <<"Barcode"<<setw(12) <<"Price";// Right aligned heading for the receipt
+//The below loop runs the values of count collected from the loop on **line 34** and prints the product, barcode and price from the array for that value
+		for (int x=0; x<items;x++)
+	{
+		int n=0;
+		n = totalproducts[x]; // Assigning the previously saved values to n in the same order **line 48**
+		cout<<endl;
+		cout<<setw(12)<<product[n]<<setw(12)<<barcode[n]<<setw(12)<<price[n]; // Using the saved values from **line 48**
+	}
+	    cout<<endl<<endl;
+		cout<<fixed<<setprecision(2)<<setw(24)<<"Total Price:"<<setw(12)<<finalprice<<endl;// Prints total price to two decimal place
+
+		cout<<"\n-------------------------------------\n\n";
+	}
+
+	else if (receipt== "n" || receipt== "N")
+	{
+	}
+	else
+	{
+		cout<<"[!] Please press Y for Yes, and N for No: ";
+		goto recieptloop;// Restart the print receipt loop if the input is not Y or N **line 94**
+	}
+
+	 cout << "Next customer? (Y/N): ";//Display line for next customer
+	 customerloop:// Restarts the next customer loop based on the input from the user on **line 128**
+	 cin >> customer;// Input from the user for next customer
+
+	if (customer == "Y" || customer== "y")
+	{
+	goto restart;// When input is Y, it restarts the program from**line 21**
+ }
+    else if (customer == "n" || customer == "N")
+	{
+	}
+	else
+	{
+		cout<<"[!] Please press Y for Yes, and N for No: ";
+		goto customerloop;// Restart the new customer loop if the input is not Y or N **line 127**
+	}
+	delete [] totalproducts ;// Deletes the data stored in the dynamic array, which previously caused problem when running the program for multiple customers
+	return 0;
+}
+
+
+
