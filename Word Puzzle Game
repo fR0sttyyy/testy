@@ -1,0 +1,347 @@
+import turtle
+def clear():#Responsible for clearing the screen after first player enters the guess word
+    print("\n"*40)
+def turtle1():#Creates a turtle named t1 which displays the heading Guess the word in blue color
+    t1 = turtle.Turtle()
+    t1.hideturtle()
+    t1.speed(5)
+    t1.penup()
+    t1.goto(-470,350)
+    t1.left(90)
+    t1.color('blue')
+    heading = ('Courier', 35, 'bold', 'italic')
+    t1.write('Guess the word:', font=heading, align='left')
+    return t1
+def turtle2():#Creates a turtle named t2 and sets it up to be used later in the main program
+    t2 = turtle.Turtle()
+    t2.hideturtle()
+    t2.speed(5)
+    t2.penup()
+    t2.color('green')
+    return t2
+def turtle3():#Creates a turtle named t3 and sets it up to be used later in the main program
+    t3 = turtle.Turtle()
+    t3.hideturtle()
+    t3.penup()
+    t3.color('blue')
+    t3.goto(-470,300)
+    return t3
+'''
+The attempt functions are responsible for drawing the ambulance whenever the second player makes a wrong guess
+'''
+def attempt7(t1):
+    t1.right(90)
+    t1.speed(5)
+    t1.penup()
+    t1.goto(0,-100)
+    t1.pendown()
+    t1.color('blue')
+    t1.begin_fill()
+    t1.fillcolor("light grey")
+    t1.width(5)
+    for i in range(2):
+        t1.left(90)
+        t1.forward(180)
+        t1.left(90)
+        t1.forward(230)
+    t1.penup()
+    t1.end_fill()
+def attempt6(t1):
+    t1.goto(-2.842170943040401e-14,-100.00000000000003)
+    t1.begin_fill()
+    t1.pendown()
+    t1.forward(120)
+    t1.left(90)
+    t1.forward(130)
+    t1.left(90)
+    t1.forward(120)
+    t1.penup()
+    t1.end_fill()
+def attempt5(t1):
+    t1.goto(-150,-50)
+    t1.pendown()
+    t1.fillcolor("blue")
+    t1.begin_fill()
+    t1.circle(55)
+    t1.penup()
+    t1.end_fill()
+def attempt4(t1):
+    t1.goto(30,-50)
+    t1.pendown()
+    t1.fillcolor("blue")
+    t1.begin_fill()
+    t1.circle(55)
+    t1.penup()
+    t1.end_fill()
+def attempt3(t1):
+    t1.goto(85,-20)
+    t1.pendown()
+    for i in range(2):
+        t1.forward(70)
+        t1.right(90)
+        t1.forward(30)
+        t1.right(90)
+    t1.penup()
+def attempt2(t1):
+    t1.goto(-100,80)
+    t1.pendown()
+    t1.fillcolor("red")
+    t1.begin_fill()
+    t1.right(90)
+    t1.forward(15)
+    t1.left(90)
+    t1.forward(35)
+    t1.left(90)
+    t1.forward(15)
+    t1.penup()
+    t1.end_fill()
+def attempt1(t1):
+    t1.goto(-155,40)
+    t1.pendown()
+    t1.color('red')
+    t1.fillcolor("red")
+    t1.begin_fill()
+    for i in range(2):
+        t1.forward(35)
+        t1.left(90)
+        t1.forward(75)
+        t1.left(90)
+    t1.penup()
+    t1.end_fill()
+def attempt0(t1):#This attempt function is responsible for drawing and displaying "You lose" when the player has 0 attempts left
+    t1.goto(-135,60)
+    t1.pendown()
+    t1.color('red')
+    t1.fillcolor("red")
+    t1.begin_fill()
+    t1.penup()
+    for i in range(2):
+        t1.forward(75)
+        t1.left(90)
+        t1.forward(35)
+        t1.left(90)
+    t1.end_fill()
+    t1.color('black')
+    t1.goto(-300,150)
+    t1.right(90)
+    lose = ('Courier' ,75, 'bold')
+    t1.write("YOU LOSE!", True, font=lose,align='left')
+def win(t1):#Responsible for displaying "You Win" when the player has correctly guessed the word
+    t1.color('black')
+    t1.goto(-300,150)
+    t1.right(90)
+    lose = ('Courier' ,75, 'bold')
+    t1.write("YOU WIN!", True, font=lose,align='left')
+'''
+The function below is responsible for
+Creates a turtle named t4 and sets it up to be used later in the main program
+Displays the attempts left at the bottom of the screen and updates after every guess
+'''
+def attemptsleft(attempt):
+    t4 = turtle.Turtle()
+    t4.hideturtle()
+    t4.speed(5)
+    t4.penup()
+    t4.color('black')
+    t4.goto(-180,-400)
+    style2 = ('Courier', 20, 'bold', 'italic')
+    t4.write("You have ",True, font=style2, align='left')
+    t4.write(attempt, True, font=style2, align='left')
+    t4.write(" attempts left", True, font=style2,align='left')
+    return t4
+def main():#This is the main program where all the function are working
+    guessWord=[]#Stores the word enter by player 1
+    answer=[""]#Stores all the inputs by player 2
+    guess=[]#Stores the word in form of stars, displayed on the turtle screen
+    userInput=[]#Asks input from the user and stores it temporarily
+    screen = turtle.Screen()
+    screen.bgcolor("yellow")
+    screen.title("hangman")
+    heading = ('Courier', 35, 'bold', 'italic')
+    t1=turtle1()#Loads turtle 1
+    t2=turtle2()#Loads turtle 2
+    t3=turtle3()#Loads turtle 3
+    word = ('Courier',30, 'bold', 'italic')
+    print("------------- PLAYER 1 -------------\n")
+    print("(Make sure PLAYER 2 is not peeking!)\n")
+    guessWord=input("Enter your word (if it has a space, use '-', e.g The-Great-wall):")#Input for guess word
+    l=len(guessWord)
+    f=len(guessWord)
+    clear()#Clears the screen
+    star="*"
+    dash="-"
+    space=" "
+    end=False
+    for i in range(0,f):# This loop is responsible for hiding the word and displaying stars in place of every letter
+        if guessWord[i]==dash:#When replacing letter with stars, this loop leaves out dash thereby indicating that there is space between the words
+            guess.append(dash)
+            t3.write(guess[i],True, font=word, align='left')
+            t3.forward(30)
+            l-=1
+        elif guessWord[i]==space:#Replaces space with dash, which shows there is space between the words
+            guess.append(dash)
+            t3.write(guess[i],True, font=word, align='left')
+            t3.forward(30)
+            l-=1
+        else:#Replaces letters with stars
+            guess.append(star)
+            t3.write(guess[i],True, font=word, align='left')
+            t3.forward(30) 
+    exist=0
+    attempt=8
+    t4=attemptsleft(attempt)#Loads turtle 4
+    incorrect=0
+    match=0
+    t2.goto(-470,-250)
+    t2.write('Wrong Guesses:', font=heading, align='left')#Uses Turtle 2 and display the heading "Wrong Guesses" and the lower part of the screen
+    t2.goto(-405,-290)
+    print("------------- PLAYER 2 -------------\n")
+    while attempt>0 and end==False:#Responible for asking for input until the attempt are 0 or the boolean flag is True
+        userInput=input("\nGuess a letter or the word (if it has a space, use '-', e.g The-Great-wall): ")#Input from user
+        #The if loop below allows user to input word with the same length as of the guess word entered by player 1
+        if len(userInput)==len(guess):#Responsible for checking if the length of the input is equal to the length of the guess
+            for z in range(0,len(userInput)):#Responsible for changing the array index of user input
+                if end==True:#Responsible for breaking the program
+                    break
+                for x in range(0,len(answer)):#Responsible for changing the array index of answer
+                    if userInput[z]==answer[x]:#Responsible for checking user input letter by letter with the answers already stored in the array named 'answer'
+                        exist=0
+                        break
+                    else:
+                        exist+=1#Increases the value of exist if the letter is not stored in answer array
+                if exist>=1:#Only works the letter is not stored in answer array
+                    answer.append(userInput[z])#Add the letter in answer array
+                    for g in range(0,len(guessWord)):#Responsible for changing the array index of guessWord
+                        if userInput[z]==guessWord[g]:#Check if the letter matches the guessWord entered by player 1
+                            guess[g]=userInput[z]#Add the letter in guess array
+                            match+=1#Increases the valure of match if the word is correct
+                        else:
+                            incorrect+=1#Increases the value of incorrect if the letter doesn't match any of the letter from the guess word
+                if incorrect==f:#Checks if the value of incorrect is equal to f(length of guessword)
+                    t2.write(userInput[z],True, font=word, align='left')#Displays the incorrect letter in the wrong guesses heading
+                    t2.forward(30)
+                    attempt-=1
+                    #The if loop below is responsible for calling the function to check the number of attempts left and drawing the ambulance
+                    if attempt==7:
+                        attempt7(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==6:
+                        attempt6(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==5:
+                        attempt5(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==4:            
+                        attempt4(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==3:
+                        attempt3(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==2:
+                        attempt2(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==1:
+                        attempt1(t1)
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                    elif attempt==0:
+                        end=True#Boolean flag becomes True in order to break the program because there is no attempts left
+                        attempt0(t1)#Function attempt0 draws the last part of the ambulance and displays the message 'You Lose' on the screen
+                        t4.clear()
+                        t4=attemptsleft(attempt)
+                exist=0
+                incorrect=0
+                t3.clear()
+                t3.goto(-470,300)
+                count=0
+                while count<f:#Responsible for updating the guess word and replaces the stars with the correct letters
+                    t3.write(guess[count],True, font=word, align='left')
+                    t3.forward(30)
+                    count+=1
+                if match==f:#Check if match is equal to f(length of guessword)
+                    win(t1)#Function win displays the message 'You Win' on the screen
+                    end=True#Boolean flag becomes True in order to break the program because player 2 has guess the complete word
+                    break
+        #The loop below allows user to input a single letter 
+        elif len(userInput)==1:#Responsible for checking if the length of the input is equal to 1
+            for x in range(0,len(answer)):#Responsible for changing the array index of answer
+                if userInput==answer[x]:#Responsible for checking user input letter by letter with the answers already stored in the array named 'answer'
+                    print("\nYou have already entered this letter ", userInput)#Display a message if the word has already been entered
+                    exist=0
+                    break
+                else:
+                    exist+=1#Increases the value of exist if the letter is not stored in answer array
+            if exist>=1:##Only works the letter is not stored in answer array
+                answer.append(userInput)#Add the letter in answer array
+                for g in range(0,len(guessWord)):#Responsible for changing the array index of guess word
+                    if userInput==guessWord[g]:#Check if the letter matches the guess word entered by player 1
+                        guess[g]=userInput#Add the letter in guess array
+                        match+=1
+                    else:
+                        incorrect+=1#Increases the value of incorrect if the letter doesn't match any of the letter from the guess word
+            if incorrect==f:#Checks if the value of incorrect is equal to f(length of guessword)
+                t2.write(userInput,True, font=word, align='left')
+                t2.forward(30)
+                attempt-=1
+                #The if loop below is responsible for calling the function to check the number of attempts left and drawing the ambulance
+                if attempt==7:#
+                    attempt7(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==6:
+                    attempt6(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==5:
+                    attempt5(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==4:            
+                    attempt4(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==3:
+                    attempt3(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==2:
+                    attempt2(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==1:
+                    attempt1(t1)
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+                elif attempt==0:
+                    attempt0(t1)#Function attempt0 draws the last part of the ambulance and displays the message 'You Lose' on the screen
+                    end=True#Boolean flag becomes True in order to break the program because there is no attempts left
+                    t4.clear()
+                    t4=attemptsleft(attempt)
+            exist=0
+            incorrect=0
+            t3.clear()
+            t3.goto(-470,300)
+            count=0
+            while count<f:#Responsible for updating the guess word and replaces the stars with the correct letters
+                t3.write(guess[count],True, font=word, align='left')
+                t3.forward(30)
+                count+=1
+            if match==f:#Check if match is equal to f(length of guessword)
+                win(t1)#Function win displays the message 'You Win' on the screen
+                end=True#Boolean flag becomes True in order to break the program because player 2 has guess the complete word
+                break
+            elif match==l:#Check if match is equal to l(length of guessword without dash "-" and space " ")
+                win(t1)#Function win displays the message 'You Win' on the screen
+                end=True#Boolean flag becomes True in order to break the program because player 2 has guess the complete word
+                break
+        else:#if the input is of more than one letter or doesnot match the size of the guess word
+            print("\nPlease enter a single letter or the complete word (if it has a space, use '-', e.g The-Great-wall):")#Displays a message if the input is of more than one letter or doesnot match the size of the guess word 
+main()
+
+
